@@ -3,7 +3,7 @@ import styles from './GriDate.module.scss';
 import { IGriDateProps } from './IGriDateProps';
 import { ActionButton, DetailsList, IColumn, IIconProps } from 'office-ui-fabric-react';
 import { IDataRecord } from '../IDataRecord';
-import { DateRangeElement } from './Datex';
+import { DateRangeElement } from './DateRange';
 
 const _columns: IColumn[] = [
   { key: 'name', name: 'Name', fieldName: 'name', minWidth: 100, maxWidth: 200, isResizable: true },
@@ -44,9 +44,6 @@ export default (props: IGriDateProps): JSX.Element => {
   } = props;
 
   const _loadData: () => Promise<void> = React.useCallback(async () => {
-    // loadData().then((d: IDataRecord[]) => {
-    //   setTabData(d);
-    // }, () => { });
     setTabData(await loadData());
   }, [setTabData, loadData]);
 
