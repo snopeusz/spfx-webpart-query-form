@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "flu-gri-date-client-side-solution",
+    "id": "3232d166-d4e5-40a9-81be-562eef4b6a49",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.15.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "FluGriDate description"
+      },
+      "longDescription": {
+        "default": "FluGriDate description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "flu-gri-date Feature",
+        "description": "The feature that activates elements of the flu-gri-date solution.",
+        "id": "9db16cf3-517e-40c0-a9f5-8ad1379486b2",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/flu-gri-date.sppkg"
+  }
+}

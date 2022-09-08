@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.0",
+    "libraryName": "flu-gri-date",
+    "libraryId": "3232d166-d4e5-40a9-81be-562eef4b6a49",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "FluGriDate",
+    "solutionShortDescription": "FluGriDate description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
