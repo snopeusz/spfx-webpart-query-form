@@ -3,7 +3,9 @@ import styles from './GriDate.module.scss';
 import { IGriDateProps } from './IGriDateProps';
 import { ActionButton, DetailsList, IColumn, IIconProps } from 'office-ui-fabric-react';
 import { IDataRecord } from '../IDataRecord';
+import DateOpenRange from './DateOpenRange';
 import { DateRangeElement } from './DateRange';
+
 
 const _columns: IColumn[] = [
   { key: 'name', name: 'Name', fieldName: 'name', minWidth: 100, maxWidth: 200, isResizable: true },
@@ -65,13 +67,22 @@ export default (props: IGriDateProps): JSX.Element => {
     void _loadData(); // eslint-disable-line no-void
   }, [_loadData]);
 
+  const _onChangeDateRange: (start: Date | undefined, end: Date | undefined) => void = React.useCallback(
+    (start: Date | undefined, end: Date | undefined) => {
+      console.log("! Data range changed to ", start && start.toString(), end && end.toString());
+    }, []);
 
   return (
     <section className={`${styles.griDate}`}>
 
-      <DateRangeElement
-        disabled={false}
+      <DateOpenRange
+        onDateRangeChange={_onChangeDateRange}
       />
+      <DateRangeElement />
+
+      {/* <DateRangeElement
+        disabled={false}
+      /> */}
 
       {/* <h3>Tabdata</h3>
       <div>

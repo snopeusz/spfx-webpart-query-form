@@ -107,6 +107,7 @@ export const DateRangeElement = (props: IDateRangeProps): JSX.Element => {
             </div>
 
             { /************* second calendar *************/}
+            
             <div>
                 <div ref={buttonContainerRef2}>
                     <DefaultButton
