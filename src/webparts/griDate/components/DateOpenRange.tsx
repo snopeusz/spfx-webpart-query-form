@@ -2,6 +2,7 @@ import { Label, Stack } from 'office-ui-fabric-react';
 import * as React from 'react';
 import CalendarNullButton from './CalendarNullButton';
 import { IDateOpenRangeProps } from './IDateOpenRangeProps';
+import styles from './DateOpenRange.module.scss';
 
 export default (props: IDateOpenRangeProps): JSX.Element => {
     const {
@@ -43,7 +44,7 @@ export default (props: IDateOpenRangeProps): JSX.Element => {
 
 
     return <Stack horizontal>
-        <Label>{label === undefined ? "Select date range:" : label}</Label>
+        <Label className={styles.label}>{label === undefined ? "Select date range:" : label}</Label>
         <CalendarNullButton
             selectedDate={startDate}
             setSelectedDate={setStartDateCallback}

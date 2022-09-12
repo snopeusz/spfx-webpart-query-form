@@ -77,6 +77,7 @@ export default (props: IGriDateProps): JSX.Element => {
 
       <DateOpenRange
         onDateRangeChange={_onChangeDateRange}
+        label="data ważności"
       />
       <DateRangeElement />
 
