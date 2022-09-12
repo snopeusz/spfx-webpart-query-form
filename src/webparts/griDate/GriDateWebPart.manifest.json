@@ -23,7 +23,8 @@
     "officeFabricIconFontName": "Page",
     "properties": {
       "description": "GriDate",
-      "tabdata": []
+      "tabdata": [],
+      "filterPresets": []
     }
   }]
 }

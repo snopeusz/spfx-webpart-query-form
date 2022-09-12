@@ -12,10 +12,12 @@ import * as strings from 'GriDateWebPartStrings';
 import GriDate from './components/GriDate';
 import { IGriDateProps } from './components/IGriDateProps';
 import { IDataRecord } from './IDataRecord';
+import { IFilterPresets, IFilterPreset } from './IFilterPresets';
 
 export interface IGriDateWebPartProps {
   description: string;
   tabdata: IDataRecord[];
+  filterPresets: IFilterPresets;
 }
 
 export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPartProps> {
@@ -113,11 +115,11 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
 
   private _addRandomDataToProps(): void {
     const d: IDataRecord[] = [];
-    for(let i: number = 0; i < 10; i++) {
+    for (let i: number = 0; i < 10; i++) {
       const aName: string = this._generateRandomName();
-      const aScore: number = Math.floor(Math.random()*100) + 1;
-      const aDate: Date = this._generateRandomDate(new Date(2020,1,1), new Date(2022,8,31));
-      d.push({name: aName, score: aScore, date:aDate});
+      const aScore: number = Math.floor(Math.random() * 100) + 1;
+      const aDate: Date = this._generateRandomDate(new Date(2020, 1, 1), new Date(2022, 8, 31));
+      d.push({ name: aName, score: aScore, date: aDate });
     }
     this.properties.tabdata = d;
     //console.log(this.properties.tabdata);
@@ -127,21 +129,21 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
 
   private _removeRandomDataRecord(): void {
     const len: number = this.properties.tabdata.length;
-    const index: number = Math.floor(Math.random()*len);
+    const index: number = Math.floor(Math.random() * len);
     //console.log("prepare to remove", len, index, this.properties.tabdata)
     if (len > 0) {
       this.properties.tabdata.splice(index, 1);
       this.properties.tabdata = [].concat(this.properties.tabdata); // we neen a new Array object for Rx state...
     }
-    
+
     //this.render();
   }
 
   private _generateRandomName(): string {
     let res: string = String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
-    const l :number = Math.floor(Math.random() * 10) + 2;
-    
+    const l: number = Math.floor(Math.random() * 10) + 2;
+
     for (let i: number = 0; i < l; i++) {
       res += String.fromCharCode(97 + Math.floor(Math.random() * 26));
     }
@@ -154,9 +156,32 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
   }
 
   private _getDataRecords(): Promise<IDataRecord[]> {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       resolve(this.properties.tabdata);
     });
+  }
+
+  private _saveFilterPreset(preset: IFilterPreset): void {
+    const { id } = preset;
+    const presets : IFilterPresets = this.properties.filterPresets;
+    const presetIndex: number = presets.findIndex((p) => p.id === id);
+    if (presetIndex)
+      presets.splice(presetIndex, 1);
+    //presets.push(preset);
+    this.properties.filterPresets = presets.concat(preset); // new object for React state change
+  }
+
+  private async _loadFilterPresets(): Promise<IFilterPresets> {
+    return /*await*/ this.properties.filterPresets;
+  }
+
+  private _removeFilterPresetWithId(id: IFilterPreset["id"]): void {
+    const presets: IFilterPresets = this.properties.filterPresets;
+    const presetIndex: number = presets.findIndex((p) => p.id === id);
+    if (presetIndex) {
+      presets.splice(presetIndex, 1);
+      this.properties.filterPresets = presets.concat(); // new object for React state change
+    }
   }
 
 }
