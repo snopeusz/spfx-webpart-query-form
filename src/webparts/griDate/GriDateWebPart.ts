@@ -9,10 +9,11 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'GriDateWebPartStrings';
-import GriDate from './components/GriDate';
-import { IGriDateProps } from './components/IGriDateProps';
+
 import { IDataRecord } from './IDataRecord';
 import { IFilterPresets, IFilterPreset } from './IFilterPresets';
+import FilterPresetBrowser from './components/FilterPresetBrowser';
+import { IFilterPresetBrowserProps } from './components/IFilterPresetBrowserProps';
 
 export interface IGriDateWebPartProps {
   description: string;
@@ -26,26 +27,37 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
   private _environmentMessage: string = '';
 
   public render(): void {
-    const element: React.ReactElement<IGriDateProps> = React.createElement(
-      GriDate,
-      /**
-       * So, here as props should be passed data, that don't change frequently,
-       * because this render method is called sparsely. Data should be passed through
-       * callback methods, obtaining data -> packed with Promise, 
-       * all other data should be treated as "initial",
-       * or changed by PropertyPanel Fields 
-       */
+
+    // const element: React.ReactElement<IGriDateProps> = React.createElement(
+    //   GriDate,
+    //   /**
+    //    * So, here as props should be passed data, that don't change frequently,
+    //    * because this render method is called sparsely. Data should be passed through
+    //    * callback methods, obtaining data -> packed with Promise, 
+    //    * all other data should be treated as "initial",
+    //    * or changed by PropertyPanel Fields 
+    //    */
+    //   {
+    //     description: this.properties.description,
+    //     isDarkTheme: this._isDarkTheme,
+    //     environmentMessage: this._environmentMessage,
+    //     hasTeamsContext: !!this.context.sdks.microsoftTeams,
+    //     userDisplayName: this.context.pageContext.user.displayName,
+    //     tabdata: this.properties.tabdata,
+    //     onClickGenerate: this._addRandomDataToProps.bind(this),
+    //     onClickRemove: this._removeRandomDataRecord.bind(this),
+    //     loadData: this._getDataRecords.bind(this),
+    //   } as IGriDateProps
+    // );
+
+    const element: React.ReactElement<IFilterPresetBrowserProps> = React.createElement(
+      FilterPresetBrowser,
       {
-        description: this.properties.description,
-        isDarkTheme: this._isDarkTheme,
-        environmentMessage: this._environmentMessage,
-        hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName,
-        tabdata: this.properties.tabdata,
-        onClickGenerate: this._addRandomDataToProps.bind(this),
-        onClickRemove: this._removeRandomDataRecord.bind(this),
-        loadData: this._getDataRecords.bind(this),
-      } as IGriDateProps
+        savePreset: this._saveFilterPreset.bind(this),
+        loadPresets: this._loadFilterPresets.bind(this),
+        removePreset: this._removeFilterPresetWithId.bind(this),
+
+      } as IFilterPresetBrowserProps
     );
 
     ReactDom.render(element, this.domElement);
@@ -163,12 +175,11 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
 
   private _saveFilterPreset(preset: IFilterPreset): void {
     const { id } = preset;
-    const presets : IFilterPresets = this.properties.filterPresets;
+    const presets: IFilterPresets = this.properties.filterPresets;
     const presetIndex: number = presets.findIndex((p) => p.id === id);
-    if (presetIndex)
+    if (presetIndex > -1)
       presets.splice(presetIndex, 1);
-    //presets.push(preset);
-    this.properties.filterPresets = presets.concat(preset); // new object for React state change
+    presets.push(preset);
   }
 
   private async _loadFilterPresets(): Promise<IFilterPresets> {
@@ -178,10 +189,8 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
   private _removeFilterPresetWithId(id: IFilterPreset["id"]): void {
     const presets: IFilterPresets = this.properties.filterPresets;
     const presetIndex: number = presets.findIndex((p) => p.id === id);
-    if (presetIndex) {
+    if (presetIndex)
       presets.splice(presetIndex, 1);
-      this.properties.filterPresets = presets.concat(); // new object for React state change
-    }
   }
 
 }
