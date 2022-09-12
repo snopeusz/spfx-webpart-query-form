@@ -4,4 +4,5 @@ export interface IDateOpenRangeProps {
     defaultEndDate?: Date | undefined;
     startNoDateLabel?: string;
     endNoDateLabel?: string;
+    label?: string;
 }

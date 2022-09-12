@@ -9,7 +9,8 @@ export default (props: IDateOpenRangeProps): JSX.Element => {
         defaultEndDate,
         onDateRangeChange,
         startNoDateLabel,
-        endNoDateLabel
+        endNoDateLabel,
+        label
     } = props;
     const [startDate, setStartDate] = React.useState<Date | undefined>(defaultStartDate || undefined);
     const [endDate, setEndDate] = React.useState<Date | undefined>(defaultEndDate || undefined);
@@ -40,8 +41,9 @@ export default (props: IDateOpenRangeProps): JSX.Element => {
         [startDate, setEndDate, onDateRangeChange],
     );
 
+
     return <Stack horizontal>
-        <Label>Select date range:</Label>
+        <Label>{label === undefined ? "Select date range:" : label}</Label>
         <CalendarNullButton
             selectedDate={startDate}
             setSelectedDate={setStartDateCallback}
