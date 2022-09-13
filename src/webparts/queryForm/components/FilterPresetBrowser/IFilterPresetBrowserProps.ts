@@ -1,4 +1,4 @@
-import { IFilterPreset, IFilterPresets } from "../IFilterPresets";
+import { IFilterPreset, IFilterPresets } from "../../IFilterPresets";
 
 export interface IFilterPresetBrowserProps {
     savePreset: (preset: IFilterPreset) => void;

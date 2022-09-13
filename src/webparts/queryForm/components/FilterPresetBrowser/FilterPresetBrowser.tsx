@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ActionButton, DefaultButton, DetailsList, Dialog, DialogFooter, DialogType, IColumn, ITextField, PrimaryButton, TextField } from 'office-ui-fabric-react';
-import DateOpenRange from './DateOpenRange';
+import DateOpenRange from '../DateOpenRange/DateOpenRange';
 import { IFilterPresetBrowserProps } from './IFilterPresetBrowserProps';
-import { IFilterPreset, IFilterPresets } from '../IFilterPresets';
+import { IFilterPreset, IFilterPresets } from '../../IFilterPresets';
 import { useBoolean } from '@fluentui/react-hooks';
 
 interface IFilterPresetTableRow {

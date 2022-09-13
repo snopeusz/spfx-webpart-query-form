@@ -1,6 +1,6 @@
 import { Label, Stack } from 'office-ui-fabric-react';
 import * as React from 'react';
-import CalendarNullButton from './CalendarNullButton';
+import CalendarNullButton from '../CalendarButton/CalendarNullButton';
 import { IDateOpenRangeProps } from './IDateOpenRangeProps';
 import styles from './DateOpenRange.module.scss';
 
@@ -41,7 +41,6 @@ export default (props: IDateOpenRangeProps): JSX.Element => {
         },
         [startDate, setEndDate, onDateRangeChange],
     );
-
 
     return <Stack horizontal>
         <Label className={styles.label}>{label === undefined ? "Select date range:" : label}</Label>

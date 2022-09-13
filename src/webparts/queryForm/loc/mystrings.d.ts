@@ -1,4 +1,4 @@
-declare interface IGriDateWebPartStrings {
+declare interface IQueryFormWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -8,7 +8,7 @@ declare interface IGriDateWebPartStrings {
   AppTeamsTabEnvironment: string;
 }
 
-declare module 'GriDateWebPartStrings' {
-  const strings: IGriDateWebPartStrings;
+declare module 'QueryFormWebPartStrings' {
+  const strings: IQueryFormWebPartStrings;
   export = strings;
 }

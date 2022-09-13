@@ -8,47 +8,25 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
-import * as strings from 'GriDateWebPartStrings';
+import * as strings from 'QueryFormWebPartStrings';
 
-import { IDataRecord } from './IDataRecord';
 import { IFilterPresets, IFilterPreset } from './IFilterPresets';
-import FilterPresetBrowser from './components/FilterPresetBrowser';
-import { IFilterPresetBrowserProps } from './components/IFilterPresetBrowserProps';
+import FilterPresetBrowser from './components/FilterPresetBrowser/FilterPresetBrowser';
+import { IFilterPresetBrowserProps } from './components/FilterPresetBrowser/IFilterPresetBrowserProps';
 
-export interface IGriDateWebPartProps {
+export interface IQFormWebPartProps {
   description: string;
-  tabdata: IDataRecord[];
   filterPresets: IFilterPresets;
 }
 
-export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPartProps> {
+export default class QueryFormWebPart extends BaseClientSideWebPart<IQFormWebPartProps> {
 
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = '';
 
   public render(): void {
 
-    // const element: React.ReactElement<IGriDateProps> = React.createElement(
-    //   GriDate,
-    //   /**
-    //    * So, here as props should be passed data, that don't change frequently,
-    //    * because this render method is called sparsely. Data should be passed through
-    //    * callback methods, obtaining data -> packed with Promise, 
-    //    * all other data should be treated as "initial",
-    //    * or changed by PropertyPanel Fields 
-    //    */
-    //   {
-    //     description: this.properties.description,
-    //     isDarkTheme: this._isDarkTheme,
-    //     environmentMessage: this._environmentMessage,
-    //     hasTeamsContext: !!this.context.sdks.microsoftTeams,
-    //     userDisplayName: this.context.pageContext.user.displayName,
-    //     tabdata: this.properties.tabdata,
-    //     onClickGenerate: this._addRandomDataToProps.bind(this),
-    //     onClickRemove: this._removeRandomDataRecord.bind(this),
-    //     loadData: this._getDataRecords.bind(this),
-    //   } as IGriDateProps
-    // );
+   
 
     const element: React.ReactElement<IFilterPresetBrowserProps> = React.createElement(
       FilterPresetBrowser,
@@ -65,7 +43,6 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
 
   protected onInit(): Promise<void> {
     this._environmentMessage = this._getEnvironmentMessage();
-
     return super.onInit();
   }
 
@@ -125,54 +102,7 @@ export default class GriDateWebPart extends BaseClientSideWebPart<IGriDateWebPar
     };
   }
 
-  private _addRandomDataToProps(): void {
-    const d: IDataRecord[] = [];
-    for (let i: number = 0; i < 10; i++) {
-      const aName: string = this._generateRandomName();
-      const aScore: number = Math.floor(Math.random() * 100) + 1;
-      const aDate: Date = this._generateRandomDate(new Date(2020, 1, 1), new Date(2022, 8, 31));
-      d.push({ name: aName, score: aScore, date: aDate });
-    }
-    this.properties.tabdata = d;
-    //console.log(this.properties.tabdata);
-    //this.render(); // Question: is it a supposed way to refresh a view with new data?
-    // ? maybe Rx Component have to pull data from WP thru callback function and put into its state to force rerender
-  }
-
-  private _removeRandomDataRecord(): void {
-    const len: number = this.properties.tabdata.length;
-    const index: number = Math.floor(Math.random() * len);
-    //console.log("prepare to remove", len, index, this.properties.tabdata)
-    if (len > 0) {
-      this.properties.tabdata.splice(index, 1);
-      this.properties.tabdata = [].concat(this.properties.tabdata); // we neen a new Array object for Rx state...
-    }
-
-    //this.render();
-  }
-
-  private _generateRandomName(): string {
-    let res: string = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
-    const l: number = Math.floor(Math.random() * 10) + 2;
-
-    for (let i: number = 0; i < l; i++) {
-      res += String.fromCharCode(97 + Math.floor(Math.random() * 26));
-    }
-
-    return res;
-  }
-
-  private _generateRandomDate(start: Date, end: Date): Date {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-  }
-
-  private _getDataRecords(): Promise<IDataRecord[]> {
-    return new Promise((resolve, reject) => {
-      resolve(this.properties.tabdata);
-    });
-  }
-
+  
   private _saveFilterPreset(preset: IFilterPreset): void {
     const { id } = preset;
     const presets: IFilterPresets = this.properties.filterPresets;
